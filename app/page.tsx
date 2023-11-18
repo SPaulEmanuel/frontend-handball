@@ -1,11 +1,12 @@
-'use client';
-
-import React from 'react';
+"use client";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
-  return (
-    <>
-      <img src="/image-test/Container.png" alt="Test" />
-    </>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/landing-page");
+  }, [router]);
+  return <></>;
 }
