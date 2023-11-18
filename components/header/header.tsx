@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import classes from "./style.module.css";
+import { useRouter } from "next/navigation";
+import { SunMoon } from "tabler-icons-react";
 
 import {
   Button,
@@ -10,10 +12,8 @@ import {
   Group,
   Text,
   useMantineColorScheme,
-  useMantineTheme,
 } from "@mantine/core";
-import { useRouter } from "next/navigation";
-import { SunMoon } from "tabler-icons-react";
+
 
 export const Header = () => {
   const route = useRouter();
