@@ -6,9 +6,9 @@ export const theme = createTheme({
   /* Put your mantine theme override here */
   breakpoints: {
     xs: "30em",
-    sm: "80em",
+    sm: "800px",
     md: "90em",
-    lg: "100em",
-    xl: "120em",
+    lg: "1500px",
+    xl: "1800px",
   },
 });

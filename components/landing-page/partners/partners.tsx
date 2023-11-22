@@ -2,7 +2,7 @@ import React from "react";
 
 import NextImage from "next/image";
 import { Flex, Image } from "@mantine/core";
-import classes from "./style.module.css";
+import classes from "./style.module.scss";
 
 import SuceavaLogo from "@/public/logo-icon/SuceavaLogo.png";
 import CelestinLogo from "@/public/logo-icon/CelestinLogo.png";

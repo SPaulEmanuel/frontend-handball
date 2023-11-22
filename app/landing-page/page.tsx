@@ -7,6 +7,7 @@ import { SkeletonTeamPresentation } from "@/components/landing-page/team-present
 
 import { Box, Space } from "@mantine/core";
 import React from "react";
+import classes from "./style.module.scss";
 
 export default function Page() {
   return (
@@ -14,7 +15,7 @@ export default function Page() {
       <Box bg={"#F0F0FF"} p={13}>
         <Menu />
 
-        <Box px={133}>
+        <Box className={classes.boxStyle}>
           <SkeletonTeamPresentation />
           <Space h={100} />
           <SkeletonMainPage />
