@@ -1,15 +1,18 @@
 "use client";
 import React, { useState } from "react";
 import classes from "./style.module.scss";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export const Navbar = () => {
+interface IProps {
+  chooseView: (value: string) => void;
+}
+export const Navbar = ({ chooseView }: IProps) => {
   const route = useRouter();
   const [choose, useChoose] = useState("news");
 
   const handlerClickEvent = (value: string) => {
     useChoose(value);
+    chooseView(value);
   };
 
   return (
