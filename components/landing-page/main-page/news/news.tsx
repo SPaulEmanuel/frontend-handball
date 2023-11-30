@@ -5,7 +5,6 @@ import classes from "./style.module.scss";
 import { Slash } from "tabler-icons-react";
 import { format } from "date-fns";
 import Link from "next/link";
-import { Navbar } from "../../navbar/navbar";
 
 interface IProps {
   data: INews[];

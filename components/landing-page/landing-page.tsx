@@ -2,36 +2,45 @@
 import React, { useState } from "react";
 import classes from "./style.module.scss";
 
-import { Box, Space } from "@mantine/core";
+import { Space } from "@mantine/core";
 import { Menu } from "./menu/menu";
-import { SkeletonTeamPresentation } from "./team-presentation/skeleton-page";
 import { Navbar } from "./navbar/navbar";
 import { News } from "./main-page/news/news";
 import { Partners } from "./partners/partners";
 import { Footer } from "./footer/footer";
+import { PresentationImage } from "./team-presentation/presentation-image/presentation-image";
+import { Team } from "./main-page/team/team";
 
 interface IProps {
-  data: any;
+  data: INews[];
+  teamData: any;
+  imageTeam: any;
 }
 
-export const LandingPage = ({ data }: IProps) => {
+export const LandingPage = ({ data, imageTeam, teamData }: IProps) => {
   const [choose, setChoose] = useState("news");
 
   const handlerClick = (value: string) => {
-    console.log("am intrat");
     setChoose(value);
   };
-  console.log(choose);
+
+  console.log(imageTeam);
   return (
     <>
       <div className={classes.bodyStyle}>
         <Menu />
         <div className={classes.boxStyle}>
-          <SkeletonTeamPresentation />
+          <PresentationImage imageURL={imageTeam[0].UrlImage} />
           <Navbar chooseView={handlerClick} />
-          <Space h={100} />
-          {choose === "news" ? <News data={data} /> : null}
 
+          {choose === "news" ? (
+            <>
+              <Space h={100} />
+              <News data={data} />
+            </>
+          ) : null}
+
+          {choose === "team" ? <Team teamData={teamData} /> : null}
           <Space h={100} />
           <Partners />
         </div>

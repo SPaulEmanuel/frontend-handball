@@ -15,12 +15,24 @@ async function getData() {
   return res.json();
 }
 
+async function getDataImageTeam() {
+  const res = await fetch("https://swaggerip.azurewebsites.net/api/images");
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
 export default async function Page() {
   const data = await getData();
 
+  const imageTeam = await getDataImageTeam();
+
   return (
     <>
-      <LandingPage data={data} />
+      <LandingPage data={data} imageTeam={imageTeam} teamData={data} />
     </>
   );
 }
