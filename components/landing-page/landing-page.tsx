@@ -13,18 +13,17 @@ import { Team } from "./main-page/team/team";
 
 interface IProps {
   data: INews[];
-  teamData: any;
+  teamPlayers: any;
   imageTeam: any;
 }
 
-export const LandingPage = ({ data, imageTeam, teamData }: IProps) => {
+export const LandingPage = ({ data, imageTeam, teamPlayers }: IProps) => {
   const [choose, setChoose] = useState("news");
 
   const handlerClick = (value: string) => {
     setChoose(value);
   };
 
-  console.log(imageTeam);
   return (
     <>
       <div className={classes.bodyStyle}>
@@ -40,7 +39,7 @@ export const LandingPage = ({ data, imageTeam, teamData }: IProps) => {
             </>
           ) : null}
 
-          {choose === "team" ? <Team teamData={teamData} /> : null}
+          {choose === "team" ? <Team teamData={teamPlayers} /> : null}
           <Space h={100} />
           <Partners />
         </div>

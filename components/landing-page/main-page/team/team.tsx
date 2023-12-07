@@ -9,14 +9,29 @@ import {
   Combobox,
   Button,
   useCombobox,
+  Text,
+  Image,
+  Flex,
+  Space,
 } from "@mantine/core";
 import { Accessible, RubberStamp } from "tabler-icons-react";
 
 interface IProps {
   teamData: any;
 }
-export const Team = ({}: IProps) => {
+
+interface IPropsThumbnailPlayer {
+  item: any;
+}
+
+interface IPropsPlayerShow {
+  player: any;
+}
+
+export const Team = ({ teamData }: IProps) => {
   const dates = ["2023/24", "2022/23", "2021/22"];
+
+  const [valueSegmentedControl, setValueSegmentedControl] = useState("players");
 
   const [selectedItem, setSelectedItem] = useState<string>("2023/24");
 
@@ -30,10 +45,46 @@ export const Team = ({}: IProps) => {
     </Combobox.Option>
   ));
 
+  const PlayerShow = ({ player }: IPropsPlayerShow) => {
+    console.log(player);
+    return (
+      <div className={classes.playerStyle}>
+        <Image
+          height={400}
+          src={player.ImageUrl}
+          alt="imagePlayer"
+          className={classes.playerImage}
+        />
+        <Text>
+          {player.Name} {player.Surname}
+        </Text>
+      </div>
+    );
+  };
+
+  const ThumbnailPlayer = ({ item }: IPropsThumbnailPlayer) => {
+    return (
+      <>
+        <Text>{item[0].Position}</Text>
+        <Flex gap="xl">
+          {item.map((player: any, index: number) => {
+            return (
+              <div key={index}>
+                <PlayerShow player={player} />
+              </div>
+            );
+          })}
+        </Flex>
+        <Space h="xl" />
+      </>
+    );
+  };
+
   return (
     <div>
       <div className={classes.central}>
         <SegmentedControl
+          value={valueSegmentedControl}
           classNames={{
             label: classes.label,
           }}
@@ -58,6 +109,7 @@ export const Team = ({}: IProps) => {
               ),
             },
           ]}
+          onChange={setValueSegmentedControl}
         />
         <Combobox
           store={combobox}
@@ -80,6 +132,19 @@ export const Team = ({}: IProps) => {
           </Combobox.Dropdown>
         </Combobox>
       </div>
+      {valueSegmentedControl === "players" ? <></> : null}
+
+      {valueSegmentedControl === "staff" ? (
+        <>
+          {teamData.map((item: any, index: any) => {
+            return (
+              <React.Fragment key={index}>
+                <ThumbnailPlayer item={item} />
+              </React.Fragment>
+            );
+          })}
+        </>
+      ) : null}
     </div>
   );
 };
