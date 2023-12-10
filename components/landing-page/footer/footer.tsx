@@ -1,6 +1,6 @@
 import { Box, Flex, Group, Text, Image } from "@mantine/core";
 import React from "react";
-import classes from "./style.module.css";
+import classes from "./style.module.scss";
 import NextImage from "next/image";
 
 import LogoCSUBlack from "@/public/logo-icon/LogoCSUBlack.png";
@@ -16,7 +16,7 @@ import {
 export const Footer = () => {
   return (
     <>
-      <Box bg={"#4D6093"} px={110} py={70}>
+      <Box bg={"#4D6093"} className={classes.styleResponsiveAll}>
         <Group className={classes.line} justify="space-between" pt={50} px={50}>
           <Flex gap={50}>
             <Flex direction="column" gap="md" c={"#050505"}>

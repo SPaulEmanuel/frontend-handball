@@ -23,6 +23,7 @@ export const Partners = () => {
           alt="SuceavaLogo"
           width={369}
           height={109}
+          className={classes.imageChange}
         />
         <Image
           component={NextImage}
@@ -30,6 +31,7 @@ export const Partners = () => {
           alt="USVLogo"
           width={284}
           height={84}
+          className={classes.imageChange}
         />
         <Image
           component={NextImage}
@@ -37,6 +39,7 @@ export const Partners = () => {
           alt="FitermanPharmaLogo"
           width={123}
           height={67}
+          className={classes.imageChange}
         />
         <Image
           component={NextImage}
@@ -68,6 +71,7 @@ export const Partners = () => {
           alt="IuliusmallLogo"
           width={98}
           height={124}
+          className={classes.imageChange}
         />
         <Image
           component={NextImage}

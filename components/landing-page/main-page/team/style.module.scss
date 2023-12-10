@@ -12,5 +12,25 @@
 }
 
 .playerImage {
+  height: 400px;
   width: 347px;
+  @media (max-width: 1300px) {
+    height: 200px;
+    width: 200px;
+  }
+}
+
+.allPlayers {
+  flex-wrap: wrap;
+  display: flex;
+  gap: 50px;
+}
+.namePlayer {
+  border-top: 1px solid #3f4b5a;
+  text-align: center;
+  font-size: 28px;
+
+  @media (max-width: 1300px) {
+    font-size: 16px;
+  }
 }

@@ -11,7 +11,6 @@ import {
   useCombobox,
   Text,
   Image,
-  Flex,
   Space,
 } from "@mantine/core";
 import { Accessible, RubberStamp } from "tabler-icons-react";
@@ -50,12 +49,16 @@ export const Team = ({ teamData }: IProps) => {
     return (
       <div className={classes.playerStyle}>
         <Image
-          height={400}
           src={player.ImageUrl}
           alt="imagePlayer"
           className={classes.playerImage}
         />
-        <Text>
+        <Text
+          fw={700}
+          c={"#013778"}
+          className={classes.namePlayer}
+          bg={"#c8c8e6"}
+        >
           {player.Name} {player.Surname}
         </Text>
       </div>
@@ -65,8 +68,11 @@ export const Team = ({ teamData }: IProps) => {
   const ThumbnailPlayer = ({ item }: IPropsThumbnailPlayer) => {
     return (
       <>
-        <Text>{item[0].Position}</Text>
-        <Flex gap="xl">
+        <Text fz={22} fw={700}>
+          {item[0].Position}
+        </Text>
+        <Space h={71} />
+        <Box className={classes.allPlayers}>
           {item.map((player: any, index: number) => {
             return (
               <div key={index}>
@@ -74,8 +80,8 @@ export const Team = ({ teamData }: IProps) => {
               </div>
             );
           })}
-        </Flex>
-        <Space h="xl" />
+        </Box>
+        <Space h={71} />
       </>
     );
   };
@@ -132,9 +138,7 @@ export const Team = ({ teamData }: IProps) => {
           </Combobox.Dropdown>
         </Combobox>
       </div>
-      {valueSegmentedControl === "players" ? <></> : null}
-
-      {valueSegmentedControl === "staff" ? (
+      {valueSegmentedControl === "players" ? (
         <>
           {teamData.map((item: any, index: any) => {
             return (
@@ -145,6 +149,8 @@ export const Team = ({ teamData }: IProps) => {
           })}
         </>
       ) : null}
+
+      {valueSegmentedControl === "staff" ? <></> : null}
     </div>
   );
 };
