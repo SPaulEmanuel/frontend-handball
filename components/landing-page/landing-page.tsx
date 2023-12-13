@@ -15,9 +15,15 @@ interface IProps {
   data: INews[];
   teamPlayers: any;
   imageTeam: any;
+  teamStaff: any;
 }
 
-export const LandingPage = ({ data, imageTeam, teamPlayers }: IProps) => {
+export const LandingPage = ({
+  data,
+  imageTeam,
+  teamPlayers,
+  teamStaff,
+}: IProps) => {
   const [choose, setChoose] = useState("news");
 
   const handlerClick = (value: string) => {
@@ -39,7 +45,9 @@ export const LandingPage = ({ data, imageTeam, teamPlayers }: IProps) => {
             </>
           ) : null}
 
-          {choose === "team" ? <Team teamData={teamPlayers} /> : null}
+          {choose === "team" ? (
+            <Team teamData={teamPlayers} staffData={teamStaff} />
+          ) : null}
           <Space h={100} />
           <Partners />
         </div>

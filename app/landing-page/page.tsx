@@ -37,6 +37,18 @@ async function getPlayers() {
   return res.json();
 }
 
+async function getStaff() {
+  const res = await fetch(
+    "https://swaggerip.azurewebsites.net/api/Staff/GetStaffByPosition"
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
 export default async function Page() {
   const data = await getData();
 
@@ -44,12 +56,14 @@ export default async function Page() {
 
   const teamPlayers = await getPlayers();
 
+  const teamStaff = await getStaff();
   return (
     <>
       <LandingPage
         data={data}
         imageTeam={imageTeam}
         teamPlayers={teamPlayers}
+        teamStaff={teamStaff}
       />
     </>
   );

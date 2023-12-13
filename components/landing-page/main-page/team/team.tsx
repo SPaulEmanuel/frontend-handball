@@ -17,6 +17,7 @@ import { Accessible, RubberStamp } from "tabler-icons-react";
 
 interface IProps {
   teamData: any;
+  staffData: any;
 }
 
 interface IPropsThumbnailPlayer {
@@ -27,8 +28,10 @@ interface IPropsPlayerShow {
   player: any;
 }
 
-export const Team = ({ teamData }: IProps) => {
+export const Team = ({ teamData, staffData }: IProps) => {
   const dates = ["2023/24", "2022/23", "2021/22"];
+
+  console.log(staffData);
 
   const [valueSegmentedControl, setValueSegmentedControl] = useState("players");
 
@@ -150,7 +153,17 @@ export const Team = ({ teamData }: IProps) => {
         </>
       ) : null}
 
-      {valueSegmentedControl === "staff" ? <></> : null}
+      {valueSegmentedControl === "staff" ? (
+        <>
+          {staffData.map((item: any, index: any) => {
+            return (
+              <React.Fragment key={index}>
+                <ThumbnailPlayer item={item} />
+              </React.Fragment>
+            );
+          })}
+        </>
+      ) : null}
     </div>
   );
 };
