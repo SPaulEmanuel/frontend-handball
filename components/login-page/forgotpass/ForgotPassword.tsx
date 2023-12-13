@@ -36,12 +36,7 @@ export function ForgotPassword() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
-        <TextInput
-          label="Email"
-          placeholder=""
-          required
-          aria-invalid={isEmailEmpty}
-        />
+        <TextInput label="Email" placeholder="" required />
         <Group justify="center" mt="lg" className={classes.controls}>
           <Button className={classes.control} onClick={handleResetLink}>
             Reseteaza parola
