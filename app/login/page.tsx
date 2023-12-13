@@ -1,0 +1,14 @@
+"use client";
+import React from "react";
+import { AuthenticationTitle } from "@/components/login-page/login/AuthenticationTitle";
+import Layout from "../layout";
+
+const AuthenticationPage: React.FC = () => {
+  return (
+    <Layout>
+      <AuthenticationTitle />
+    </Layout>
+  );
+};
+
+export default AuthenticationPage;
