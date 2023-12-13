@@ -1,3 +1,4 @@
+"use client";
 import classes from "./style.module.css";
 import NextImage from "next/image";
 import { Flex, Group, Image, Text } from "@mantine/core";

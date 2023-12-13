@@ -1,0 +1,10 @@
+.line {
+  border-top: 2px solid #ff1541;
+}
+
+.styleResponsiveAll {
+  padding: 70px 110px 70px 110px;
+  @media (max-width: 800px) {
+    padding: 40px 30px 40px 30px;
+  }
+}

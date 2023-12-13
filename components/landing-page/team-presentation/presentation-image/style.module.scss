@@ -1,0 +1,8 @@
+.dynamicStyle {
+  @media (max-width: em(1000px)) {
+    height: 400px;
+  }
+  @media (max-width: em(500px)) {
+    height: 200px;
+  }
+}

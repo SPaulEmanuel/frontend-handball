@@ -7,18 +7,3 @@
     padding-right: 0px;
   }
 }
-
-.boxStyle {
-  padding-left: 133px;
-  padding-right: 133px;
-
-  @media (max-width: em(1500px)) {
-    padding-left: 60px;
-    padding-right: 60px;
-  }
-
-  @media (max-width: em(1000px)) {
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-}

@@ -1,29 +1,56 @@
 "use client";
-import { Footer } from "@/components/landing-page/footer/footer";
-import { SkeletonMainPage } from "@/components/landing-page/main-page/skeleton-page";
-import { Menu } from "@/components/landing-page/menu/menu";
-import { Partners } from "@/components/landing-page/partners/partners";
-import { SkeletonTeamPresentation } from "@/components/landing-page/team-presentation/skeleton-page";
 
-import { Box, Space } from "@mantine/core";
 import React from "react";
-import classes from "./style.module.scss";
+import { LandingPage } from "@/components/landing-page/landing-page";
 
-export default function Page() {
+async function getData() {
+  const res = await fetch(
+    "https://swaggerip.azurewebsites.net/api/Articole/GetAll"
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
+async function getDataImageTeam() {
+  const res = await fetch("https://swaggerip.azurewebsites.net/api/images");
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
+async function getPlayers() {
+  const res = await fetch(
+    "https://swaggerip.azurewebsites.net/api/Player/GetPlayersByPosition"
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
+export default async function Page() {
+  const data = await getData();
+
+  const imageTeam = await getDataImageTeam();
+
+  const teamPlayers = await getPlayers();
+
   return (
-    <Box>
-      <Box bg={"#F0F0FF"} p={13}>
-        <Menu />
-
-        <Box className={classes.boxStyle}>
-          <SkeletonTeamPresentation />
-          <Space h={100} />
-          <SkeletonMainPage />
-          <Space h={100} />
-          <Partners />
-        </Box>
-      </Box>
-      <Footer />
-    </Box>
+    <>
+      <LandingPage
+        data={data}
+        imageTeam={imageTeam}
+        teamPlayers={teamPlayers}
+      />
+    </>
   );
 }

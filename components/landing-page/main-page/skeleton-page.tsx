@@ -9,7 +9,7 @@ export const SkeletonMainPage = () => {
       <SimpleGrid className={classes.simpleGridStyle}>
         {Array.from({ length: 8 }, (_, index) => {
           return (
-            <Box w={328} mx={"auto"}>
+            <Box w={328} mx={"auto"} key={index}>
               <Skeleton height={219} radius="xl" />
               <Skeleton height={8} mt={6} width="40%" radius="xl" />
               <Skeleton height={8} mt={6} width="60%" radius="xl" />
