@@ -12,9 +12,42 @@ import {
 } from "@mantine/core";
 import classes from "./AuthenticationTitle.module.css";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useAtom } from "jotai";
+import { token } from "@/components/jotai-state/token";
+
+type ValuesLogin = {
+  username: string;
+  password: string;
+};
+
+const ApiUserLogin = async (data: ValuesLogin) => {
+  const body = JSON.stringify(data);
+
+  const responseAll = await fetch(
+    "https://swaggerip.azurewebsites.net/Users/authenticate",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json-patch+json",
+      },
+      body,
+    }
+  );
+
+  return responseAll;
+};
 
 export function AuthenticationTitle() {
+  const [tokenValue, setTokenValue] = useAtom(token);
+
   const router = useRouter();
+
+  const [loginValues, setLoginValues] = useState({
+    username: "",
+    password: "",
+  });
+  const [showError, setShowError] = useState();
 
   const handleCreateAccount = () => {
     router.push("/signin");
@@ -22,6 +55,32 @@ export function AuthenticationTitle() {
 
   const handleForgotPassword = () => {
     router.push("/forgotpassword");
+  };
+
+  const handlerEvent = (e: any) => {
+    const { name, value } = e.target;
+
+    setLoginValues((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
+
+  console.log(tokenValue);
+
+  const handlerSubmit = async () => {
+    const responseAll = await ApiUserLogin(loginValues);
+
+    const respondData = await responseAll.json();
+
+    if (!responseAll.ok) {
+      setShowError(respondData.message);
+      return;
+    }
+
+    const token = await respondData.Token;
+    setTokenValue(token);
+
+    router.push("/admin/overview");
   };
 
   return (
@@ -37,15 +96,28 @@ export function AuthenticationTitle() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="" required />
-        <PasswordInput label="Parola" placeholder="" required mt="md" />
+        <TextInput
+          label="Username"
+          placeholder=""
+          required
+          name="username"
+          onChange={handlerEvent}
+        />
+        <PasswordInput
+          label="Parola"
+          placeholder=""
+          required
+          mt="md"
+          name="password"
+          onChange={handlerEvent}
+        />
         <Group justify="space-between" mt="lg">
           <Checkbox label="Tine-ma minte" />
           <Anchor component="button" size="sm" onClick={handleForgotPassword}>
             Ai uitat parola?
           </Anchor>
         </Group>
-        <Button fullWidth mt="xl">
+        <Button fullWidth mt="xl" onClick={handlerSubmit}>
           Autentificare
         </Button>
       </Paper>

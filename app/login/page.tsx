@@ -5,9 +5,9 @@ import Layout from "../layout";
 
 const AuthenticationPage: React.FC = () => {
   return (
-    <Layout>
+    <div>
       <AuthenticationTitle />
-    </Layout>
+    </div>
   );
 };
 
