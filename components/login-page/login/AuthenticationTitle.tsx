@@ -74,7 +74,6 @@ export function AuthenticationTitle() {
       setShowError(respondData.message);
       return;
     }
-    console.log(respondData);
     setTokenValue(respondData);
 
     router.push("/admin/general");

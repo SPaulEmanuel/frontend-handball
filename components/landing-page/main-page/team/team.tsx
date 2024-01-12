@@ -31,8 +31,6 @@ interface IPropsPlayerShow {
 export const Team = ({ teamData, staffData }: IProps) => {
   const dates = ["2023/24", "2022/23", "2021/22"];
 
-  console.log(staffData);
-
   const [valueSegmentedControl, setValueSegmentedControl] = useState("players");
 
   const [selectedItem, setSelectedItem] = useState<string>("2023/24");
@@ -48,7 +46,6 @@ export const Team = ({ teamData, staffData }: IProps) => {
   ));
 
   const PlayerShow = ({ player }: IPropsPlayerShow) => {
-    console.log(player);
     return (
       <div className={classes.playerStyle}>
         <Image

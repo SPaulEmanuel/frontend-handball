@@ -3,6 +3,8 @@ import { Button, Box, Space } from "@mantine/core";
 import { PlayersPageTable } from "./component-table/personal-page-table";
 import { AddPeople } from "@/components/admin/personal/component-table/add-people";
 import { useEffect, useState } from "react";
+import { respondsPlayers } from "@/components/jotai-state/token";
+import { useAtom } from "jotai";
 
 async function getPersonal() {
   const res = await fetch(
@@ -17,7 +19,9 @@ async function getPersonal() {
 }
 
 export const AdminPagePersonal = () => {
+  const [respondsPlayer, setRespondsPlayer] = useAtom(respondsPlayers);
   const [data, setData] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,11 +32,9 @@ export const AdminPagePersonal = () => {
         console.error("Eroare la preluarea datelor:", error);
       }
     };
-
+    setRespondsPlayer(false);
     fetchData();
-  }, []);
-
-  const [open, setOpen] = useState(false);
+  }, [respondsPlayer]);
 
   const handlerAddPeople = () => {
     setOpen(true);

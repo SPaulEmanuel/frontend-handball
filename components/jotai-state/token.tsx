@@ -7,3 +7,5 @@ export const token = atom({
   Token: "",
   ImageUrl: "",
 });
+
+export const respondsPlayers = atom(false);

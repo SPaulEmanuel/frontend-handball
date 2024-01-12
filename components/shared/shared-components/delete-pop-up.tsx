@@ -1,5 +1,7 @@
+import { respondsPlayers } from "@/components/jotai-state/token";
 import { Button, Modal, Text } from "@mantine/core";
-import React from "react";
+import { useAtom } from "jotai";
+import React, { useState } from "react";
 
 interface IProps {
   title: string;
@@ -28,15 +30,17 @@ const ApiDelete = async (id: string) => {
 };
 
 export const DeletePopUp = ({ id, title, setOpen, open }: IProps) => {
+  const [, setRespondsPlayers] = useAtom(respondsPlayers);
+
   const handlerDelete = async () => {
     const reps = await ApiDelete(id);
     if (reps.ok) {
-      console.log("Reusit");
+      setRespondsPlayers(true);
+      setOpen({ openModal: false, PlayerID: "" });
     }
   };
 
   const handlerClose = () => {
-    console.log(id);
     setOpen({ openModal: false, PlayerID: "" });
   };
 

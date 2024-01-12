@@ -1,3 +1,4 @@
+import { respondsPlayers } from "@/components/jotai-state/token";
 import {
   Stack,
   Flex,
@@ -10,16 +11,62 @@ import {
   Text,
   Box,
 } from "@mantine/core";
-import React, { useRef, useState } from "react";
+import { useAtom } from "jotai";
+import React, { useEffect, useRef, useState } from "react";
 
 interface IProps {
   title: string;
   setOpen: (open: boolean) => void;
   open: boolean;
+  player?: any;
 }
-export const AddPeople = ({ title, setOpen, open }: IProps) => {
+
+const ApiPut = async (id: string, body: any) => {
+  const NewBody = JSON.stringify(body);
+  const apiUrl = `https://swaggerip.azurewebsites.net/api/Player/${id}`;
+
+  const responseAll = await fetch(apiUrl, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json-patch+json",
+    },
+    body: NewBody,
+  });
+
+  return responseAll;
+};
+
+export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
+  const [values, setValues] = useState({
+    Name: "",
+    Surname: "",
+    Age: 0,
+    Position: "",
+    JerseyNumber: 0,
+    GoalsScored: 0,
+    ImageUrl: "ssdsd",
+  });
+  const [, setRespondsPlayer] = useAtom(respondsPlayers);
+
   const [file, setFile] = useState<File | null>(null);
+
   const resetRef = useRef<() => void>(null);
+
+  useEffect(() => {
+    if (player) {
+      setValues((prev) => {
+        return {
+          ...prev,
+          Name: player.Name,
+          Surname: player.Surname,
+          Age: player.Age,
+          Position: player.Position,
+          JerseyNumber: player.JerseyNumber,
+          GoalsScored: player.GoalsScored,
+        };
+      });
+    }
+  }, [player]);
 
   const clearFile = () => {
     setFile(null);
@@ -27,10 +74,51 @@ export const AddPeople = ({ title, setOpen, open }: IProps) => {
   };
 
   const handlerClose = () => {
+    setValues({
+      Name: "",
+      Surname: "",
+      Age: 0,
+      Position: "",
+      JerseyNumber: 0,
+      GoalsScored: 0,
+      ImageUrl: "",
+    });
     setOpen(false);
   };
 
-  const OnSubmit = () => {};
+  const handlerEvent = (e: any) => {
+    const { name, value } = e.target;
+    setValues((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
+
+  const handlerEventNumber = (e: any, name: string) => {
+    setValues((prev) => {
+      return { ...prev, [name]: e };
+    });
+  };
+
+  const OnSubmit = async () => {
+    if (player) {
+      const newValue = {
+        name: values.Name,
+        surname: values.Surname,
+        age: values.Age,
+        position: values.Position,
+        jerseyNumber: values.JerseyNumber,
+        goalsScored: values.GoalsScored,
+        imageUrl: values.ImageUrl,
+      };
+      const resp = await ApiPut(player.PlayerID, newValue);
+      if (resp.ok) {
+        console.log("sa facut schimbarea");
+        setRespondsPlayer(true);
+        handlerClose();
+      }
+    }
+  };
+
   return (
     <div>
       <Modal opened={open} onClose={handlerClose} title={title}>
@@ -38,27 +126,45 @@ export const AddPeople = ({ title, setOpen, open }: IProps) => {
           <Flex gap={10} justify={"space-between"}>
             <TextInput
               label="Nume jucatorului"
+              name="Name"
               placeholder="Input placeholder"
               maw={350}
+              value={values.Name}
+              onChange={(e) => handlerEvent(e)}
             />
             <TextInput
               maw={350}
+              name="Surname"
+              value={values.Surname}
               label="Prenumele jucatorului"
               placeholder="Input placeholder"
+              onChange={(e) => handlerEvent(e)}
             />
           </Flex>
-          <NumberInput label="Varsta" placeholder="Input placeholder" />
+          <NumberInput
+            label="Varsta"
+            placeholder="Input placeholder"
+            value={values.Age}
+            onChange={(e) => handlerEventNumber(e, "Age")}
+          />
           <TextInput
             label="Pozitia jucatorului"
             placeholder="Input placeholder"
+            name="Position"
+            value={values.Position}
+            onChange={(e) => handlerEvent(e)}
           />
           <NumberInput
             label="Numarul tricoului"
             placeholder="Input placeholder"
+            value={values.JerseyNumber}
+            onChange={(e) => handlerEventNumber(e, "JerseyNumber")}
           />
           <NumberInput
             label="Golurile marcate"
             placeholder="Input placeholder"
+            value={values.GoalsScored}
+            onChange={(e) => handlerEventNumber(e, "GoalsScored")}
           />
 
           <Group justify="center">
@@ -82,8 +188,8 @@ export const AddPeople = ({ title, setOpen, open }: IProps) => {
           </Box>
         </Stack>
         <Flex justify={"center"}>
-          <Button variant="outline" size="sm" w={"100%"}>
-            Create
+          <Button variant="outline" size="sm" w={"100%"} onClick={OnSubmit}>
+            Submit
           </Button>
         </Flex>
       </Modal>

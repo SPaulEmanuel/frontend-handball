@@ -42,7 +42,6 @@ export const NavbarLogin = () => {
 
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
-  console.log(tokenValue);
   useEffect(() => {
     setUser((prev: any) => ({
       ...prev,

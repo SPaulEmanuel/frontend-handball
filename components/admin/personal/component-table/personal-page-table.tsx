@@ -5,12 +5,15 @@ import { Trash } from "tabler-icons-react";
 import { Edit } from "tabler-icons-react";
 import { useState } from "react";
 import { DeletePopUp } from "@/components/shared/shared-components/delete-pop-up";
+import { AddPeople } from "./add-people";
 
 interface IProps {
   data: any;
 }
 
 export const PlayersPageTable = ({ data }: IProps) => {
+  const [open, setOpen] = useState(false);
+  const [playerEdit, setPlayerEdit] = useState();
   const [openDeletePop, setOpenDeletePop] = useState({
     openModal: false,
     PlayerID: "",
@@ -18,6 +21,11 @@ export const PlayersPageTable = ({ data }: IProps) => {
 
   const handlerDelete = (idPlayer: string) => {
     setOpenDeletePop({ PlayerID: idPlayer, openModal: true });
+  };
+
+  const handlerAddPeople = (player: any) => {
+    setPlayerEdit(player);
+    setOpen(true);
   };
 
   const rows = data.map((element: any, index: number) => (
@@ -34,7 +42,7 @@ export const PlayersPageTable = ({ data }: IProps) => {
       <Table.Td>{element.GoalsScored}</Table.Td>
       <Table.Td>{element.JerseyNumber}</Table.Td>
       <Table.Td>
-        <Button variant="transparent">
+        <Button variant="transparent" onClick={() => handlerAddPeople(element)}>
           <Edit size={30} strokeWidth={2} color={"white"} />
         </Button>
         <Button
@@ -49,6 +57,12 @@ export const PlayersPageTable = ({ data }: IProps) => {
 
   return (
     <div>
+      <AddPeople
+        open={open}
+        setOpen={setOpen}
+        title={"Editare Player"}
+        player={playerEdit}
+      />
       <DeletePopUp
         open={openDeletePop.openModal}
         id={openDeletePop.PlayerID}
