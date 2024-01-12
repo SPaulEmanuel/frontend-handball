@@ -1,6 +1,6 @@
 "use client";
 import cx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NextImage from "next/image";
 import {
   Container,
@@ -12,7 +12,6 @@ import {
   Tabs,
   Burger,
   rem,
-  useMantineTheme,
   Image,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -25,20 +24,32 @@ import {
 import classes from "./style.module.scss";
 import logoCSU from "@/public/logo-icon/LogoCSU.png";
 import { useRouter } from "next/navigation";
-
-const user = {
-  name: "Jane Spoonfighter",
-  email: "janspoon@fighter.dev",
-  image:
-    "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png",
-};
+import { useAtom } from "jotai";
+import { token } from "@/components/jotai-state/token";
 
 const tabs = ["General", "Personal", "Jucatori", "Meciuri"];
 
 export const NavbarLogin = () => {
   const route = useRouter();
+  const [tokenValue] = useAtom(token);
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    image: "",
+  });
+
   const [opened, { toggle }] = useDisclosure(false);
+
   const [userMenuOpened, setUserMenuOpened] = useState(false);
+
+  console.log(tokenValue);
+  useEffect(() => {
+    setUser((prev: any) => ({
+      ...prev,
+      name: tokenValue.FirstName + " " + tokenValue.LastName,
+      image: tokenValue.ImageUrl,
+    }));
+  }, [tokenValue]);
 
   const handlerEvent = (tab: string) => {
     const lowercaseTab = tab.toLowerCase();

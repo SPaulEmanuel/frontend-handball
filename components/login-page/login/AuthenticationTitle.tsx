@@ -65,8 +65,6 @@ export function AuthenticationTitle() {
     });
   };
 
-  console.log(tokenValue);
-
   const handlerSubmit = async () => {
     const responseAll = await ApiUserLogin(loginValues);
 
@@ -76,11 +74,10 @@ export function AuthenticationTitle() {
       setShowError(respondData.message);
       return;
     }
+    console.log(respondData);
+    setTokenValue(respondData);
 
-    const token = await respondData.Token;
-    setTokenValue(token);
-
-    router.push("/admin/overview");
+    router.push("/admin/general");
   };
 
   return (
