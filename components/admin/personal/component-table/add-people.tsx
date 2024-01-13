@@ -36,16 +36,12 @@ const ApiPut = async (id: string, body: any) => {
   return responseAll;
 };
 
-const ApiPost = async (body: any) => {
-  const NewBody = JSON.stringify(body);
+const ApiPost = async (formData: FormData) => {
   const apiUrl = `https://swaggerip.azurewebsites.net/api/Player`;
 
   const responseAll = await fetch(apiUrl, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json-patch+json",
-    },
-    body: NewBody,
+    body: formData,
   });
 
   return responseAll;
@@ -127,7 +123,6 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
       };
       const resp = await ApiPut(player.PlayerID, newValue);
       if (resp.ok) {
-        console.log("sa facut schimbarea");
         setRespondsPlayer(true);
         handlerClose();
       }
@@ -144,7 +139,6 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
 
       const resp = await ApiPost(formData);
       if (resp.ok) {
-        console.log("sa facut schimbarea");
         setRespondsPlayer(true);
         handlerClose();
       }
