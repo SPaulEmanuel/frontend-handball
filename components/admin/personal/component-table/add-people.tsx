@@ -36,6 +36,21 @@ const ApiPut = async (id: string, body: any) => {
   return responseAll;
 };
 
+const ApiPost = async (body: any) => {
+  const NewBody = JSON.stringify(body);
+  const apiUrl = `https://swaggerip.azurewebsites.net/api/Player`;
+
+  const responseAll = await fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json-patch+json",
+    },
+    body: NewBody,
+  });
+
+  return responseAll;
+};
+
 export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
   const [values, setValues] = useState({
     Name: "",
@@ -116,6 +131,23 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
         setRespondsPlayer(true);
         handlerClose();
       }
+    } else {
+      const formData = new FormData();
+
+      formData.append("Name", values.Name);
+      formData.append("Surname", values.Surname);
+      formData.append("Age", values.Age.toString());
+      formData.append("Position", values.Position);
+      formData.append("JerseyNumber", values.JerseyNumber.toString());
+      formData.append("GoalsScored", values.GoalsScored.toString());
+      formData.append("ImageUrl", values.ImageUrl);
+
+      const resp = await ApiPost(formData);
+      if (resp.ok) {
+        console.log("sa facut schimbarea");
+        setRespondsPlayer(true);
+        handlerClose();
+      }
     }
   };
 
@@ -189,7 +221,7 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
         </Stack>
         <Flex justify={"center"}>
           <Button variant="outline" size="sm" w={"100%"} onClick={OnSubmit}>
-            Submit
+            {player ? <>Edit player</> : <>Crete player</>}
           </Button>
         </Flex>
       </Modal>

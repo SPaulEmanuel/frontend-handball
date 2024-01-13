@@ -18,7 +18,7 @@ async function getPersonal() {
   return res.json();
 }
 
-export const AdminPagePersonal = () => {
+export const AdminJucatori = () => {
   const [respondsPlayer, setRespondsPlayer] = useAtom(respondsPlayers);
   const [data, setData] = useState("");
   const [open, setOpen] = useState(false);
