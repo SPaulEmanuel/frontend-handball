@@ -34,6 +34,7 @@ export function AutocompleteData() {
       rightSection={loading ? <Loader size="1rem" /> : null}
       label="Your email"
       placeholder=""
+      required
     />
   );
 }

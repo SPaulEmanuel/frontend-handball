@@ -25,11 +25,12 @@ export function ResetLink() {
   return (
     <Container size={460} my={30}>
       <Text c="dimmed" fz="sm" ta="center">
-        Un link de resetare a parolei a fost generat și trimis la adresa dvs. de
-        e-mail asociată contului.Vă rugăm să verificați adresa de e-mail și să
-        urmați instrucțiunile din mesajul primit pentru a finaliza procesul de
-        resetare a parolei. Asigurați-vă că verificați și folderul cu spam sau
-        junk în cazul în care nu găsiți imediat e-mailul în casuta de intrare.
+        Hi Customer, We see you've forgotten your password - thankfully, it's an
+        easy fix. Simply open the link below and you'll be directed to create a
+        new password: https://account.com If you didn't request a password
+        change, please contact Customer Care free of charge by dialing 911 from
+        your phone or by calling 1-800-000-0000. Thanks for choosing our
+        company.
       </Text>
 
       <Paper>
