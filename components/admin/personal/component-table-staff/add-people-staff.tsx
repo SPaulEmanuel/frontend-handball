@@ -1,9 +1,8 @@
-import { respondsPlayers } from "@/components/jotai-state/token";
+import { respondsStaffs } from "@/components/jotai-state/token-staff";
 import {
   Stack,
   Flex,
   Modal,
-  NumberInput,
   TextInput,
   Group,
   FileButton,
@@ -18,12 +17,12 @@ interface IProps {
   title: string;
   setOpen: (open: boolean) => void;
   open: boolean;
-  player?: any;
+  staff?: any;
 }
 
 const ApiPut = async (id: string, body: any) => {
   const NewBody = JSON.stringify(body);
-  const apiUrl = `https://swaggerip.azurewebsites.net/api/Player/${id}`;
+  const apiUrl = `https://swaggerip.azurewebsites.net/api/Staff/${id}`;
 
   const responseAll = await fetch(apiUrl, {
     method: "PUT",
@@ -37,7 +36,7 @@ const ApiPut = async (id: string, body: any) => {
 };
 
 const ApiPost = async (formData: FormData) => {
-  const apiUrl = `https://swaggerip.azurewebsites.net/api/Player`;
+  const apiUrl = `https://swaggerip.azurewebsites.net/api/Staff`;
 
   const responseAll = await fetch(apiUrl, {
     method: "POST",
@@ -47,37 +46,31 @@ const ApiPost = async (formData: FormData) => {
   return responseAll;
 };
 
-export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
+export const AddStaff = ({ title, setOpen, open, staff }: IProps) => {
   const [values, setValues] = useState({
     Name: "",
     Surname: "",
-    Age: 0,
     Position: "",
-    JerseyNumber: 0,
-    GoalsScored: 0,
     ImageUrl: "ssdsd",
   });
-  const [, setRespondsPlayer] = useAtom(respondsPlayers);
+  const [, setRespondsStaff] = useAtom(respondsStaffs);
 
   const [file, setFile] = useState<File | null>(null);
 
   const resetRef = useRef<() => void>(null);
 
   useEffect(() => {
-    if (player) {
+    if (staff) {
       setValues((prev) => {
         return {
           ...prev,
-          Name: player.Name,
-          Surname: player.Surname,
-          Age: player.Age,
-          Position: player.Position,
-          JerseyNumber: player.JerseyNumber,
-          GoalsScored: player.GoalsScored,
+          Name: staff.Name,
+          Surname: staff.Surname,
+          Position: staff.Position,
         };
       });
     }
-  }, [player]);
+  }, [staff]);
 
   const clearFile = () => {
     setFile(null);
@@ -88,10 +81,7 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
     setValues({
       Name: "",
       Surname: "",
-      Age: 0,
       Position: "",
-      JerseyNumber: 0,
-      GoalsScored: 0,
       ImageUrl: "",
     });
     setOpen(false);
@@ -104,26 +94,17 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
     });
   };
 
-  const handlerEventNumber = (e: any, name: string) => {
-    setValues((prev) => {
-      return { ...prev, [name]: e };
-    });
-  };
-
   const OnSubmit = async () => {
-    if (player) {
+    if (staff) {
       const newValue = {
         name: values.Name,
         surname: values.Surname,
-        age: values.Age,
         position: values.Position,
-        jerseyNumber: values.JerseyNumber,
-        goalsScored: values.GoalsScored,
         imageUrl: values.ImageUrl,
       };
-      const resp = await ApiPut(player.PlayerID, newValue);
+      const resp = await ApiPut(staff.PlayerID, newValue);
       if (resp.ok) {
-        setRespondsPlayer(true);
+        setRespondsStaff(true);
         handlerClose();
       }
     } else {
@@ -131,15 +112,12 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
 
       formData.append("Name", values.Name);
       formData.append("Surname", values.Surname);
-      formData.append("Age", values.Age.toString());
       formData.append("Position", values.Position);
-      formData.append("JerseyNumber", values.JerseyNumber.toString());
-      formData.append("GoalsScored", values.GoalsScored.toString());
       formData.append("ImageUrl", values.ImageUrl);
 
       const resp = await ApiPost(formData);
       if (resp.ok) {
-        setRespondsPlayer(true);
+        setRespondsStaff(true);
         handlerClose();
       }
     }
@@ -151,7 +129,7 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
         <Stack gap="lg">
           <Flex gap={10} justify={"space-between"}>
             <TextInput
-              label="Nume jucatorului"
+              label="Numele staff-ului"
               name="Name"
               placeholder="Input placeholder"
               maw={350}
@@ -162,35 +140,17 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
               maw={350}
               name="Surname"
               value={values.Surname}
-              label="Prenumele jucatorului"
+              label="Prenumele staff-ului"
               placeholder="Input placeholder"
               onChange={(e) => handlerEvent(e)}
             />
           </Flex>
-          <NumberInput
-            label="Varsta"
-            placeholder="Input placeholder"
-            value={values.Age}
-            onChange={(e) => handlerEventNumber(e, "Age")}
-          />
           <TextInput
-            label="Pozitia jucatorului"
+            label="Pozitia staff-ului"
             placeholder="Input placeholder"
             name="Position"
             value={values.Position}
             onChange={(e) => handlerEvent(e)}
-          />
-          <NumberInput
-            label="Numarul tricoului"
-            placeholder="Input placeholder"
-            value={values.JerseyNumber}
-            onChange={(e) => handlerEventNumber(e, "JerseyNumber")}
-          />
-          <NumberInput
-            label="Golurile marcate"
-            placeholder="Input placeholder"
-            value={values.GoalsScored}
-            onChange={(e) => handlerEventNumber(e, "GoalsScored")}
           />
 
           <Group justify="center">
@@ -215,7 +175,7 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
         </Stack>
         <Flex justify={"center"}>
           <Button variant="outline" size="sm" w={"100%"} onClick={OnSubmit}>
-            {player ? <>Edit player</> : <>Create player</>}
+            {staff ? <>Edit staff</> : <>Create staff</>}
           </Button>
         </Flex>
       </Modal>
