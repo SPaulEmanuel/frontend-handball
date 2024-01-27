@@ -76,7 +76,7 @@ export function AuthenticationTitle() {
     }
     setTokenValue(respondData);
 
-    router.push("/admin/general");
+    router.push("/admin/users");
   };
 
   return (

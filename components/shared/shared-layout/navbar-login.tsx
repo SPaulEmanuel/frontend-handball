@@ -27,7 +27,7 @@ import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { token } from "@/components/jotai-state/token";
 
-const tabs = ["General", "Personal", "Jucatori", "Meciuri"];
+const tabs = ["Users", "Personal", "Jucatori", "Meciuri"];
 
 export const NavbarLogin = () => {
   const route = useRouter();

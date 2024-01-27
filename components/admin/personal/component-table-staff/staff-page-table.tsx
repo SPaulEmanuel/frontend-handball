@@ -1,4 +1,4 @@
-import { Button, Image } from "@mantine/core";
+import { Button, Image, useMantineColorScheme } from "@mantine/core";
 import { Table } from "@mantine/core";
 import classes from "./style.module.scss";
 import { Trash } from "tabler-icons-react";
@@ -12,6 +12,7 @@ interface IProps {
 }
 
 export const StaffsPageTable = ({ data }: IProps) => {
+  const { colorScheme } = useMantineColorScheme();
   const [open, setOpen] = useState(false);
   const [staffEdit, setStaffEdit] = useState();
   const [openDeletePop, setOpenDeletePop] = useState({
@@ -41,13 +42,21 @@ export const StaffsPageTable = ({ data }: IProps) => {
       <Table.Td>{element.Position}</Table.Td>
       <Table.Td>
         <Button variant="transparent" onClick={() => handlerAddStaff(element)}>
-          <Edit size={30} strokeWidth={2} color={"white"} />
+          <Edit
+            size={30}
+            strokeWidth={2}
+            color={colorScheme === "light" ? "black" : "white"}
+          />
         </Button>
         <Button
           variant="transparent"
           onClick={() => handlerDelete(element.StaffID)}
         >
-          <Trash size={30} strokeWidth={2} color={"white"} />
+          <Trash
+            size={30}
+            strokeWidth={2}
+            color={colorScheme === "light" ? "black" : "white"}
+          />
         </Button>
       </Table.Td>
     </Table.Tr>

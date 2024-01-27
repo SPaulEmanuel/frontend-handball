@@ -1,7 +1,7 @@
 "use client";
 import { Button, Box, Space } from "@mantine/core";
 import { PlayersPageTable } from "./component-table/personal-page-table";
-import { AddPeople } from "@/components/admin/personal/component-table/add-people";
+import { AddPeople } from "@/components/admin/jucatori/component-table/add-people";
 import { useEffect, useState } from "react";
 import { respondsPlayers } from "@/components/jotai-state/token";
 import { useAtom } from "jotai";

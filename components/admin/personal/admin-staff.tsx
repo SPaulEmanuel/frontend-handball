@@ -1,11 +1,10 @@
 "use client";
 import { Button, Box, Space } from "@mantine/core";
-import { PlayersPageTable } from "./component-table/personal-page-table";
 import { AddStaff } from "@/components/admin/personal/component-table-staff/add-people-staff";
 import { useEffect, useState } from "react";
-import { respondsStaffs } from "@/components/jotai-state/token-staff";
 import { useAtom } from "jotai";
 import { StaffsPageTable } from "./component-table-staff/staff-page-table";
+import { respondsStaffs } from "@/components/jotai-state/token";
 
 async function getStaff() {
   const res = await fetch(

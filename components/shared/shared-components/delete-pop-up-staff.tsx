@@ -1,4 +1,4 @@
-import { respondsStaffs } from "@/components/jotai-state/token-staff";
+import { respondsStaffs } from "@/components/jotai-state/token";
 import { Button, Modal, Text } from "@mantine/core";
 import { useAtom } from "jotai";
 import React, { useState } from "react";

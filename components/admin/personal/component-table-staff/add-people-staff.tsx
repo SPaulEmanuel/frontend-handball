@@ -1,4 +1,4 @@
-import { respondsStaffs } from "@/components/jotai-state/token-staff";
+import { respondsStaffs } from "@/components/jotai-state/token";
 import {
   Stack,
   Flex,
@@ -102,7 +102,7 @@ export const AddStaff = ({ title, setOpen, open, staff }: IProps) => {
         position: values.Position,
         imageUrl: values.ImageUrl,
       };
-      const resp = await ApiPut(staff.PlayerID, newValue);
+      const resp = await ApiPut(staff.StaffID, newValue);
       if (resp.ok) {
         setRespondsStaff(true);
         handlerClose();

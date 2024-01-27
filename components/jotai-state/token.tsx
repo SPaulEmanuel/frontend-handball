@@ -8,4 +8,8 @@ export const token = atom({
   ImageUrl: "",
 });
 
+export const respondsStaffs = atom(false);
+
 export const respondsPlayers = atom(false);
+
+export const respondsUsers = atom(false);
