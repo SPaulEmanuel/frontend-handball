@@ -51,7 +51,8 @@ export const AddStaff = ({ title, setOpen, open, staff }: IProps) => {
     Name: "",
     Surname: "",
     Position: "",
-    ImageUrl: "ssdsd",
+    ImageUrl:
+      "https://ipstorage1989.blob.core.windows.net/ipcontainer/Smocot.png",
   });
   const [, setRespondsStaff] = useAtom(respondsStaffs);
 

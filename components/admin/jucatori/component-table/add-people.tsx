@@ -55,7 +55,8 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
     Position: "",
     JerseyNumber: 0,
     GoalsScored: 0,
-    ImageUrl: "ssdsd",
+    ImageUrl:
+      "https://ipstorage1989.blob.core.windows.net/ipcontainer/Smocot.png",
   });
   const [, setRespondsPlayer] = useAtom(respondsPlayers);
 

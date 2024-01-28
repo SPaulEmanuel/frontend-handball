@@ -1,4 +1,4 @@
-import { respondsUsers } from "@/components/jotai-state/token";
+import { respondsUsers, token } from "@/components/jotai-state/token";
 import {
   Box,
   Button,
@@ -14,7 +14,7 @@ import {
 import { useAtom } from "jotai";
 import React, { useRef, useState } from "react";
 
-const ApiPost = async (data: any) => {
+const ApiPost = async (data: any, token: string) => {
   const apiUrl = `https://swaggerip.azurewebsites.net/Users`;
 
   const body = JSON.stringify(data);
@@ -22,8 +22,10 @@ const ApiPost = async (data: any) => {
   const responseAll = await fetch(apiUrl, {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json-patch+json",
     },
+
     body: body,
   });
 
@@ -37,6 +39,7 @@ interface IProps {
 }
 
 export const AddUsers = ({ title, setOpen, open }: IProps) => {
+  const [valueToken] = useAtom(token);
   const [values, setValues] = useState({
     firstName: "",
 
@@ -89,7 +92,7 @@ export const AddUsers = ({ title, setOpen, open }: IProps) => {
   };
 
   const OnSubmit = async () => {
-    const resp = await ApiPost(values);
+    const resp = await ApiPost(values, valueToken.Token);
 
     if (resp.ok) {
       setRespondsPlayer(true);

@@ -6,8 +6,12 @@ import React, { useEffect, useState } from "react";
 import { UsersTable } from "./components-table-users/users-table";
 import { AddUsers } from "./components-table-users/add-users";
 
-async function getUsers() {
-  const res = await fetch("https://swaggerip.azurewebsites.net/Users");
+async function getUsers(token: string) {
+  const res = await fetch("https://swaggerip.azurewebsites.net/Users", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -25,7 +29,7 @@ export const AdminUsers = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const dataAPI = await getUsers();
+        const dataAPI = await getUsers(valueToken.Token);
         setData(dataAPI);
       } catch (error) {
         console.error("Eroare la preluarea datelor:", error);
