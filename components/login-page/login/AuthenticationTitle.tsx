@@ -49,10 +49,6 @@ export function AuthenticationTitle() {
   });
   const [showError, setShowError] = useState();
 
-  const handleCreateAccount = () => {
-    router.push("/signin");
-  };
-
   const handleForgotPassword = () => {
     router.push("/forgotpassword");
   };
@@ -84,12 +80,6 @@ export function AuthenticationTitle() {
       <Title ta="center" className={classes.title}>
         Bine ai venit !
       </Title>
-      <Text c="dimmed" size="sm" ta="center" mt={5}>
-        Inca nu ai cont?{" "}
-        <Anchor size="sm" component="button" onClick={handleCreateAccount}>
-          Creeaza cont
-        </Anchor>
-      </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <TextInput
