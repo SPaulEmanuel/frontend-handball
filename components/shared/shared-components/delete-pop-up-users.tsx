@@ -1,4 +1,4 @@
-import { respondsUsers } from "@/components/jotai-state/token";
+import { respondsUsers, token } from "@/components/jotai-state/token";
 import { Button, Modal, Text } from "@mantine/core";
 import { useAtom } from "jotai";
 import React from "react";
@@ -16,13 +16,14 @@ interface IProps {
   open: boolean;
 }
 
-const ApiDelete = async (id: string) => {
-  const apiUrl = `https://swaggerip.azurewebsites.net/api/Users/${id}`;
+const ApiDelete = async (id: string, token: string) => {
+  console.log(token);
+  const apiUrl = `https://swaggerip.azurewebsites.net/Users/${id}`;
 
   const responseAll = await fetch(apiUrl, {
     method: "DELETE",
     headers: {
-      "Content-Type": "application/json-patch+json",
+      Authorization: `bearer ${token}`,
     },
   });
 
@@ -30,10 +31,11 @@ const ApiDelete = async (id: string) => {
 };
 
 export const DeletePopUpUsers = ({ id, title, setOpen, open }: IProps) => {
+  const [tokenValue] = useAtom(token);
   const [, setRespondsUsers] = useAtom(respondsUsers);
 
   const handlerDelete = async () => {
-    const reps = await ApiDelete(id);
+    const reps = await ApiDelete(id, tokenValue.Token);
     if (reps.ok) {
       setRespondsUsers(true);
       setOpen({ openModal: false, UsersID: "" });

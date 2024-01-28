@@ -31,7 +31,7 @@ const tabs = ["Users", "Personal", "Jucatori", "Meciuri"];
 
 export const NavbarLogin = () => {
   const route = useRouter();
-  const [tokenValue] = useAtom(token);
+  const [tokenValue, setTokenValue] = useAtom(token);
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -53,6 +53,17 @@ export const NavbarLogin = () => {
   const handlerEvent = (tab: string) => {
     const lowercaseTab = tab.toLowerCase();
     route.push(`/admin/${lowercaseTab}`);
+  };
+
+  const handlerLogOut = () => {
+    route.push("/login");
+    setTokenValue({
+      Id: "",
+      FirstName: "",
+      LastName: "",
+      Token: "",
+      ImageUrl: "",
+    });
   };
 
   const items = tabs.map((tab) => (
@@ -134,6 +145,7 @@ export const NavbarLogin = () => {
                     stroke={1.5}
                   />
                 }
+                onClick={handlerLogOut}
               >
                 Logout
               </Menu.Item>
