@@ -17,7 +17,6 @@ interface IProps {
 }
 
 const ApiDelete = async (id: string, token: string) => {
-  console.log(token);
   const apiUrl = `https://swaggerip.azurewebsites.net/Users/${id}`;
 
   const responseAll = await fetch(apiUrl, {

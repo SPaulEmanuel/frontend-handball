@@ -1,4 +1,4 @@
-import { respondsPlayers } from "@/components/jotai-state/token";
+import { respondsPlayers, token } from "@/components/jotai-state/token";
 import {
   Stack,
   Flex,
@@ -21,13 +21,14 @@ interface IProps {
   player?: any;
 }
 
-const ApiPut = async (id: string, body: any) => {
+const ApiPut = async (id: string, body: any, token: string) => {
   const NewBody = JSON.stringify(body);
   const apiUrl = `https://swaggerip.azurewebsites.net/api/Player/${id}`;
 
   const responseAll = await fetch(apiUrl, {
     method: "PUT",
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json-patch+json",
     },
     body: NewBody,
@@ -36,11 +37,14 @@ const ApiPut = async (id: string, body: any) => {
   return responseAll;
 };
 
-const ApiPost = async (formData: FormData) => {
+const ApiPost = async (formData: FormData, token: string) => {
   const apiUrl = `https://swaggerip.azurewebsites.net/api/Player`;
 
   const responseAll = await fetch(apiUrl, {
     method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     body: formData,
   });
 
@@ -48,6 +52,7 @@ const ApiPost = async (formData: FormData) => {
 };
 
 export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
+  const [valueToken] = useAtom(token);
   const [values, setValues] = useState({
     Name: "",
     Surname: "",
@@ -122,7 +127,7 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
         goalsScored: values.GoalsScored,
         imageUrl: values.ImageUrl,
       };
-      const resp = await ApiPut(player.PlayerID, newValue);
+      const resp = await ApiPut(player.PlayerID, newValue, valueToken.Token);
       if (resp.ok) {
         setRespondsPlayer(true);
         handlerClose();
@@ -138,7 +143,7 @@ export const AddPeople = ({ title, setOpen, open, player }: IProps) => {
       formData.append("GoalsScored", values.GoalsScored.toString());
       formData.append("ImageUrl", values.ImageUrl);
 
-      const resp = await ApiPost(formData);
+      const resp = await ApiPost(formData, valueToken.Token);
       if (resp.ok) {
         setRespondsPlayer(true);
         handlerClose();

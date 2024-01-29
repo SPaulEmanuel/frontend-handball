@@ -1,4 +1,4 @@
-import { respondsPlayers } from "@/components/jotai-state/token";
+import { respondsPlayers, token } from "@/components/jotai-state/token";
 import { Button, Modal, Text } from "@mantine/core";
 import { useAtom } from "jotai";
 import React, { useState } from "react";
@@ -16,12 +16,13 @@ interface IProps {
   open: boolean;
 }
 
-const ApiDelete = async (id: string) => {
+const ApiDelete = async (id: string, token: string) => {
   const apiUrl = `https://swaggerip.azurewebsites.net/api/Player/${id}`;
 
   const responseAll = await fetch(apiUrl, {
     method: "DELETE",
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json-patch+json",
     },
   });
@@ -30,10 +31,11 @@ const ApiDelete = async (id: string) => {
 };
 
 export const DeletePopUp = ({ id, title, setOpen, open }: IProps) => {
+  const [valueToken] = useAtom(token);
   const [, setRespondsPlayers] = useAtom(respondsPlayers);
 
   const handlerDelete = async () => {
-    const reps = await ApiDelete(id);
+    const reps = await ApiDelete(id, valueToken.Token);
     if (reps.ok) {
       setRespondsPlayers(true);
       setOpen({ openModal: false, PlayerID: "" });

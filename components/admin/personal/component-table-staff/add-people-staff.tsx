@@ -1,4 +1,4 @@
-import { respondsStaffs } from "@/components/jotai-state/token";
+import { respondsStaffs, token } from "@/components/jotai-state/token";
 import {
   Stack,
   Flex,
@@ -20,13 +20,14 @@ interface IProps {
   staff?: any;
 }
 
-const ApiPut = async (id: string, body: any) => {
+const ApiPut = async (id: string, body: any, token: string) => {
   const NewBody = JSON.stringify(body);
   const apiUrl = `https://swaggerip.azurewebsites.net/api/Staff/${id}`;
 
   const responseAll = await fetch(apiUrl, {
     method: "PUT",
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json-patch+json",
     },
     body: NewBody,
@@ -35,11 +36,14 @@ const ApiPut = async (id: string, body: any) => {
   return responseAll;
 };
 
-const ApiPost = async (formData: FormData) => {
+const ApiPost = async (formData: FormData, token: string) => {
   const apiUrl = `https://swaggerip.azurewebsites.net/api/Staff`;
 
   const responseAll = await fetch(apiUrl, {
     method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     body: formData,
   });
 
@@ -47,12 +51,12 @@ const ApiPost = async (formData: FormData) => {
 };
 
 export const AddStaff = ({ title, setOpen, open, staff }: IProps) => {
+  const [valueToken] = useAtom(token);
   const [values, setValues] = useState({
     Name: "",
     Surname: "",
     Position: "",
-    ImageUrl:
-      "https://ipstorage1989.blob.core.windows.net/ipcontainer/Smocot.png",
+    ImageUrl: "sss",
   });
   const [, setRespondsStaff] = useAtom(respondsStaffs);
 
@@ -83,7 +87,7 @@ export const AddStaff = ({ title, setOpen, open, staff }: IProps) => {
       Name: "",
       Surname: "",
       Position: "",
-      ImageUrl: "",
+      ImageUrl: "dasdsa",
     });
     setOpen(false);
   };
@@ -103,12 +107,13 @@ export const AddStaff = ({ title, setOpen, open, staff }: IProps) => {
         position: values.Position,
         imageUrl: values.ImageUrl,
       };
-      const resp = await ApiPut(staff.StaffID, newValue);
+      const resp = await ApiPut(staff.StaffID, newValue, valueToken.Token);
       if (resp.ok) {
         setRespondsStaff(true);
         handlerClose();
       }
     } else {
+      console.log(values);
       const formData = new FormData();
 
       formData.append("Name", values.Name);
@@ -116,7 +121,7 @@ export const AddStaff = ({ title, setOpen, open, staff }: IProps) => {
       formData.append("Position", values.Position);
       formData.append("ImageUrl", values.ImageUrl);
 
-      const resp = await ApiPost(formData);
+      const resp = await ApiPost(formData, valueToken.Token);
       if (resp.ok) {
         setRespondsStaff(true);
         handlerClose();
