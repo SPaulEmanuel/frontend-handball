@@ -11,8 +11,25 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
+import { id } from "date-fns/locale";
 import { useAtom } from "jotai";
 import React, { useRef, useState } from "react";
+
+const ApiPut = async (id: string, body: any, token: string) => {
+  const NewBody = JSON.stringify(body);
+  const apiUrl = `https://swaggerip.azurewebsites.net/api/Users/${id}`;
+
+  const responseAll = await fetch(apiUrl, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json-patch+json",
+    },
+    body: NewBody,
+  });
+
+  return responseAll;
+};
 
 const ApiPost = async (data: any, token: string) => {
   const apiUrl = `https://swaggerip.azurewebsites.net/Users`;
@@ -36,9 +53,10 @@ interface IProps {
   title: string;
   setOpen: (open: boolean) => void;
   open: boolean;
+  user?: any;
 }
 
-export const AddUsers = ({ title, setOpen, open }: IProps) => {
+export const AddUsers = ({ title, setOpen, open, user }: IProps) => {
   const [valueToken] = useAtom(token);
   const [values, setValues] = useState({
     firstName: "",
@@ -90,14 +108,45 @@ export const AddUsers = ({ title, setOpen, open }: IProps) => {
       return { ...prev, [name]: e };
     });
   };
-
+  /*
   const OnSubmit = async () => {
     const resp = await ApiPost(values, valueToken.Token);
-
     if (resp.ok) {
       setRespondsPlayer(true);
-
       handlerClose();
+    }
+  };
+*/
+  const OnSubmit = async () => {
+    if (user) {
+      const newValue = {
+        name: values.firstName,
+        surname: values.lastName,
+        username: values.username,
+        password: values.password,
+        userType: values.userType,
+        imageUrl: values.imageUrl,
+      };
+      const resp = await ApiPut(user.UsersID, newValue, valueToken.Token);
+      if (resp.ok) {
+        setRespondsPlayer(true);
+        handlerClose();
+      }
+    } else {
+      const formData = new FormData();
+
+      formData.append("Name", values.firstName);
+      formData.append("Surname", values.lastName);
+      formData.append("Username", values.username);
+      formData.append("Password", values.password);
+      formData.append("User Type", values.userType);
+      formData.append("ImageUrl", values.imageUrl);
+
+      const resp = await ApiPost(values, valueToken.Token);
+      if (resp.ok) {
+        setRespondsPlayer(true);
+        handlerClose();
+      }
     }
   };
 
@@ -170,7 +219,7 @@ export const AddUsers = ({ title, setOpen, open }: IProps) => {
         </Stack>
         <Flex justify={"center"}>
           <Button variant="outline" size="sm" w={"100%"} onClick={OnSubmit}>
-            Create user
+            {user ? <>Edit user</> : <>Create user</>}
           </Button>
         </Flex>
       </Modal>
