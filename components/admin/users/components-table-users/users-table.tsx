@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import classes from "./style.module.scss";
 import { Edit, Trash } from "tabler-icons-react";
 import { DeletePopUpUsers } from "@/components/shared/shared-components/delete-pop-up-users";
+import { AddUsers } from "./add-users";
 
 interface IProps {
   data: any;
@@ -57,13 +58,18 @@ export const UsersTable = ({ data }: IProps) => {
 
   return (
     <div>
+      <AddUsers
+        open={open}
+        setOpen={setOpen}
+        title={"Editare User"}
+        user={UsersEdit}
+      />
       <DeletePopUpUsers
         open={openDeletePop.openModal}
         id={openDeletePop.UsersID}
         setOpen={setOpenDeletePop}
         title={"Sterge Users"}
       />
-
       <Table>
         <Table.Thead>
           <Table.Tr>
